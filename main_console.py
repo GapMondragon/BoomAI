@@ -25,50 +25,50 @@ from configure import auth_key
 URL = "wss://api.assemblyai.com/v2/realtime/ws?sample_rate=16000"
  
  
-def process_result(sampSent):
+def process_result(samp_sent):
     # split the sample sentence into a list
-    sentList = sampSent.split()
+    sent_list = samp_sent.split()
     
     # create empty list
-    newList = []
+    new_list = []
 
     # declare consonants and vowels
     consonantsss = ["b","c","d","f","g","h","j","k","l","m","n","p","q","r","s","t","v","w","x","y","z","B","C","D","F","G","H","J","K","L","M","N","P","Q","R","S","T","V","W","X","Y","Z"]
     vowelsss = ["a","e","i","o","u","A","E","I","O","U"]
 
-    # for every item in sentList list
-    for i in (sentList):
+    # for every item in sent_list list
+    for i in (sent_list):
         # if last character is a vowel
         if i[-1:] in vowelsss:
-            # append '-v' to it and add to newList
-            newList.append(f"{i}-v")
+            # append '-v' to it and add to new_list
+            new_list.append(f"{i}-v")
         # if last character is a consonant
         elif i[-1:] in consonantsss:
-            # append '-c' to it and add to newList
-            newList.append(f"{i}-c")
+            # append '-c' to it and add to new_list
+            new_list.append(f"{i}-c")
         # if neither consonant nor vowel, assume it is a comma,period,question mark, or exclamation point
         else:
-            # create placeholders to separately append to newlist
+            # create placeholders to separately append to new_list
             befstr = i[:-1]
-            nonLetter = i[-1:]
+            non_letter = i[-1:]
 
             if befstr[-1:] in vowelsss:
-                # append '-v' to it and add to newList
-                newList.append(f"{befstr}-v")
+                # append '-v' to it and add to new_list
+                new_list.append(f"{befstr}-v")
             elif befstr[-1:] in consonantsss:
-                # append '-c' to it and add to newList
-                newList.append(f"{befstr}-c")
-            # append {nonLetter} to newList
-            newList.append(nonLetter)
+                # append '-c' to it and add to new_list
+                new_list.append(f"{befstr}-c")
+            # append {non_letter} to new_list
+            new_list.append(non_letter)
 
     # join the list with spaces
-    newSent = (' '.join(newList))
+    new_sent = (' '.join(new_list))
     # delete whitespace
-    commaRep = newSent.replace(" ,", ",")
-    periodRep = commaRep.replace(" .", ".")
-    exclaRep = periodRep.replace(" !", "!")
-    quesRep = exclaRep.replace(" ?", "?")
-    return quesRep
+    comma_rep = new_sent.replace(" ,", ",")
+    period_rep = comma_rep.replace(" .", ".")
+    excla_rep = period_rep.replace(" !", "!")
+    ques_rep = excla_rep.replace(" ?", "?")
+    return ques_rep
 
 async def send_receive():
    print(f'Connecting websocket to url ${URL}')
